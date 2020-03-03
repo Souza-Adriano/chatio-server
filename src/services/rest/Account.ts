@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import AccountModel from '../models/Account';
+import AccountModel from '../../models/Account';
 
 class Account {
     public router = Router();
