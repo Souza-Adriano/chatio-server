@@ -3,6 +3,7 @@ import { Application } from 'express';
 import { createServer, Server } from 'http';
 import * as IO from 'socket.io';
 import Env from './env';
+import { EventEmitter } from 'events';
 
 class App {
     public app: Application;
@@ -31,7 +32,11 @@ class App {
 
     private sockets(socketEvents: any[]): void {
         this.SocketServer.on('connection', (socket) => {
-            socketEvents.forEach((SocketEvent) => new SocketEvent(socket));
+            const session = socket.handshake.query;
+            socket.join(socket.handshake.query.email);
+            const handler = new EventEmitter();
+            socketEvents.forEach((SocketEvent) =>
+                new SocketEvent(socket, this.SocketServer, session, handler));
         });
     }
 

@@ -14,6 +14,7 @@ const express_1 = __importDefault(require("express"));
 const http_1 = require("http");
 const IO = __importStar(require("socket.io"));
 const env_1 = __importDefault(require("./env"));
+const events_1 = require("events");
 class App {
     constructor(init) {
         this.ENV = env_1.default.get('APP');
@@ -33,7 +34,10 @@ class App {
     }
     sockets(socketEvents) {
         this.SocketServer.on('connection', (socket) => {
-            socketEvents.forEach((SocketEvent) => new SocketEvent(socket));
+            const session = socket.handshake.query;
+            socket.join(socket.handshake.query.email);
+            const handler = new events_1.EventEmitter();
+            socketEvents.forEach((SocketEvent) => new SocketEvent(socket, this.SocketServer, session, handler));
         });
     }
     start() {
