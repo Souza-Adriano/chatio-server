@@ -2,11 +2,13 @@ import app from './config/server';
 import middlewares from './config/middlewares';
 import routes from './config/routes';
 import sockets from './config/sockets';
+import watchers from './config/watchers';
 
 const App = new app({
     middlewares,
     routes,
     sockets,
-})
+    watchers,
+});
 
 App.start();

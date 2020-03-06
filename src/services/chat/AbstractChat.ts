@@ -36,6 +36,8 @@ abstract class AbstractChat<SESSION> extends AbstractSocket<SESSION> {
         image: (data: any) => void;
         file: (data: any) => void;
     };
+
+    protected abstract commands(): void;
 }
 
 export default AbstractChat;

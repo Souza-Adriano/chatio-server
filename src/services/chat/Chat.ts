@@ -16,7 +16,7 @@ export class UserChat extends AbstractChat<UserSession> {
         file: this.sendAttachment(this.session, 'file'),
     };
 
-    private commands() {
+    protected commands() {
         this.handler.on('send:message', this.messenger);
         this.handler.on('attachment:file', this.attachment.file);
         this.handler.on('attachment:image', this.attachment.image);
@@ -35,7 +35,7 @@ export class CustomerChat extends AbstractChat<CustomerSession> {
         file: this.sendAttachment(this.session, 'file'),
     };
 
-    private commands() {
+    protected commands() {
         this.handler.on('send:message', this.messenger);
         this.handler.on('attachment:file', this.attachment.file);
         this.handler.on('attachment:image', this.attachment.image);

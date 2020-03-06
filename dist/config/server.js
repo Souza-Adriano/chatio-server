@@ -25,6 +25,7 @@ class App {
         this.sockets(init.sockets);
         this.middlewares(init.middlewares);
         this.routes(init.routes);
+        this.watchers(init.watchers);
     }
     middlewares(middleWares) {
         middleWares.forEach((middleWare) => this.app.use(middleWare));
@@ -32,12 +33,20 @@ class App {
     routes(routes) {
         routes.forEach((route) => this.app.use('/', route.router));
     }
-    sockets(socketEvents) {
+    sockets(sockets) {
         this.SocketServer.on('connection', (socket) => {
             const session = socket.handshake.query;
             socket.join(socket.handshake.query.email);
             const handler = new events_1.EventEmitter();
-            socketEvents.forEach((SocketEvent) => new SocketEvent(socket, this.SocketServer, session, handler));
+            session.type === 'user'
+                ? sockets.user.forEach((SocketEvent) => new SocketEvent(socket, this.SocketServer, session, handler))
+                : sockets.customer.forEach((SocketEvent) => new SocketEvent(socket, this.SocketServer, session, handler));
+        });
+    }
+    watchers(watchers) {
+        watchers.forEach((subscribe) => {
+            const watcher = new subscribe(this.SocketServer);
+            watcher.watch();
         });
     }
     start() {
