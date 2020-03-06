@@ -21,14 +21,14 @@ export class Manager extends AbstractAttendence<UserSession> {
     }
 }
 
-export class Queue extends AbstractAttendence<CustomerSession> {67
+export class Queue extends AbstractAttendence<CustomerSession> {
     constructor(socket: Socket, server: Server, session: CustomerSession, handler: EventEmitter) {
         super(socket, server, session, handler);
         this.commands();
     }
 
     private produce(): void {
-        const DTO = { id: this.session.id, email: this.session.email }
+        const DTO = { id: this.session.id, email: this.session.email };
         this.queue.produce(DTO)
             .catch(console.error);
     }
