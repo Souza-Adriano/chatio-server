@@ -12,7 +12,7 @@ class Printer {
         console.log(this.hex('#50fa7b')(msg));
     }
     static yellow(msg) {
-        console.log(this.hex('#f1fa8c')(msg));
+        console.log(this.hex('#EBA809')(msg));
     }
 }
 exports.Printer = Printer;
@@ -22,13 +22,13 @@ class Painter {
         return this.hex('#ff5555')(msg);
     }
     static blue(msg) {
-        return this.hex('#8be9fd')(msg);
+        return this.hex('#147AFF')(msg);
     }
     static green(msg) {
         return this.hex('#50fa7b')(msg);
     }
     static yellow(msg) {
-        return this.hex('#f1fa8c')(msg);
+        return this.hex('#EBA809')(msg);
     }
 }
 exports.Painter = Painter;

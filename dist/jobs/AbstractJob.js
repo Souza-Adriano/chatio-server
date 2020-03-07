@@ -13,11 +13,17 @@ class AbstractJob {
         this.timeHandle = new TimeHandler_1.default();
         this.jobName = name;
     }
-    logInfo() {
-        this.logHandler.info(`executing ${this.jobName} job`);
+    logJob() {
+        this.logHandler.success(`Starting ${this.jobName} job`);
     }
     logFail(error) {
-        this.logHandler.fail(`executing ${this.jobName} job \n  -> ${error}`);
+        this.logHandler.fail(`Starting ${this.jobName} job \n  -> ${error}`);
+    }
+    logStatusOff() {
+        this.logHandler.warning(`Job ${this.jobName} Stoped`);
+    }
+    logStatusOn() {
+        this.logHandler.info(`Job ${this.jobName} Running`);
     }
 }
 exports.default = AbstractJob;

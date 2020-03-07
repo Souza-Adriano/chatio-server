@@ -12,12 +12,20 @@ abstract class AbstractJob {
         this.jobName = name;
     }
 
-    public logInfo(): void {
-        this.logHandler.info(`executing ${this.jobName} job`);
+    public logJob(): void {
+        this.logHandler.success(`Starting ${this.jobName} job`);
     }
 
     public logFail(error: any): void {
-        this.logHandler.fail(`executing ${this.jobName} job \n  -> ${error}`);
+        this.logHandler.fail(`Starting ${this.jobName} job \n  -> ${error}`);
+    }
+
+    public logStatusOff() {
+        this.logHandler.warning(`Job ${this.jobName} Stoped`);
+    }
+
+    public logStatusOn() {
+        this.logHandler.info(`Job ${this.jobName} Running`);
     }
     public abstract async start(): Promise<void>;
 }

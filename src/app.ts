@@ -5,6 +5,8 @@ import sockets from './config/sockets';
 import watchers from './config/watchers';
 import jobs from './config/jobs';
 
+console.log(`-------------------------------------------------------------------------\n`);
+
 const App = new app({
     middlewares,
     routes,

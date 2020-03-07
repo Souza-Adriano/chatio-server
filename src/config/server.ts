@@ -7,6 +7,9 @@ import { EventEmitter } from 'events';
 import { ServerOptions, SocketOptions } from './interfaces';
 import LogHandler from '../controllers/LogHandler';
 
+// Stetic Import
+import {Printer} from '../lib/Paint';
+//
 class App {
     public app: Application;
     private ENV = Env.get('APP');
@@ -19,13 +22,14 @@ class App {
         this.app = express();
         this.port = this.ENV.PORT;
         this.Http = createServer(this.app);
+        this.logHandler.logger();
         this.SocketServer = IO.default(this.Http);
         this.sockets(init.sockets);
         this.middlewares(init.middlewares);
         this.routes(init.routes);
         this.watchers(init.watchers);
         this.jobs(init.jobs);
-        this.logHandler.logger();
+        
     }
 
     private middlewares(middleWares: { forEach: (arg0: (middleWare: any) => void) => void; }) {
@@ -66,9 +70,10 @@ class App {
 
     public start() {
         this.Http.listen(this.port, () => {
-            console.log(`[INFO] App listening on port ${this.port}`);
-            console.log(`[INFO] http://localhost:${this.port}`);
-            console.log(`[INFO] Press CTRL + C to stop server`);
+            console.log(`\n-------------------------------------------------------------------------\n`);
+            Printer.green(`[STATUS] App listening on port ${this.port}`);
+            Printer.yellow(`[INFO] Press CTRL + C to stop server`);
+            console.log(`\n-------------------------------------------------------------------------\n`);
         });
     }
 }

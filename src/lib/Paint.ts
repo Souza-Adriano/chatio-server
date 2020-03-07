@@ -16,7 +16,7 @@ export class Printer {
     }
 
     public static yellow(msg: string): void {
-        console.log(this.hex('#f1fa8c')(msg));
+        console.log(this.hex('#EBA809')(msg));
     }
 
 }
@@ -29,7 +29,7 @@ export class Painter {
     }
 
     public static blue(msg: string): string {
-        return this.hex('#8be9fd')(msg);
+        return this.hex('#147AFF')(msg);
     }
 
     public static green(msg: string): string {
@@ -37,7 +37,7 @@ export class Painter {
     }
 
     public static yellow(msg: string): string {
-        return this.hex('#f1fa8c')(msg);
+        return this.hex('#EBA809')(msg);
     }
 
 }

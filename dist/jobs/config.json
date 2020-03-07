@@ -1,5 +1,6 @@
 {
     "MESSAGE": {
-        "interval": { "minutes": 10 }
+        "active": true,
+        "interval": { "seconds": 30 }
     }
 }

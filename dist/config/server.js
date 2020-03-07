@@ -16,6 +16,9 @@ const IO = __importStar(require("socket.io"));
 const env_1 = __importDefault(require("./env"));
 const events_1 = require("events");
 const LogHandler_1 = __importDefault(require("../controllers/LogHandler"));
+// Stetic Import
+const Paint_1 = require("../lib/Paint");
+//
 class App {
     constructor(init) {
         this.ENV = env_1.default.get('APP');
@@ -23,13 +26,13 @@ class App {
         this.app = express_1.default();
         this.port = this.ENV.PORT;
         this.Http = http_1.createServer(this.app);
+        this.logHandler.logger();
         this.SocketServer = IO.default(this.Http);
         this.sockets(init.sockets);
         this.middlewares(init.middlewares);
         this.routes(init.routes);
         this.watchers(init.watchers);
         this.jobs(init.jobs);
-        this.logHandler.logger();
     }
     middlewares(middleWares) {
         middleWares.forEach((middleWare) => this.app.use(middleWare));
@@ -61,9 +64,10 @@ class App {
     }
     start() {
         this.Http.listen(this.port, () => {
-            console.log(`[INFO] App listening on port ${this.port}`);
-            console.log(`[INFO] http://localhost:${this.port}`);
-            console.log(`[INFO] Press CTRL + C to stop server`);
+            console.log(`\n-------------------------------------------------------------------------\n`);
+            Paint_1.Printer.green(`[STATUS] App listening on port ${this.port}`);
+            Paint_1.Printer.yellow(`[INFO] Press CTRL + C to stop server`);
+            console.log(`\n-------------------------------------------------------------------------\n`);
         });
     }
 }

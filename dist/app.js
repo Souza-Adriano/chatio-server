@@ -9,6 +9,7 @@ const routes_1 = __importDefault(require("./config/routes"));
 const sockets_1 = __importDefault(require("./config/sockets"));
 const watchers_1 = __importDefault(require("./config/watchers"));
 const jobs_1 = __importDefault(require("./config/jobs"));
+console.log(`-------------------------------------------------------------------------\n`);
 const App = new server_1.default({
     middlewares: middlewares_1.default,
     routes: routes_1.default,

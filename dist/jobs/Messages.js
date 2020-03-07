@@ -11,20 +11,26 @@ class MessageJob extends AbstractJob_1.default {
         super('Message');
     }
     async start() {
-        const Model = new Message_1.default();
-        const Storage = new MessageStorage_1.default();
-        setInterval(async () => {
-            try {
-                const collection = await Storage.collect();
-                await Promise.all(collection.map(async (messages) => {
-                    await Model.create(messages);
-                }));
-                this.logInfo();
-            }
-            catch (error) {
-                this.logFail(error);
-            }
-        }, this.timeHandle.toMS(this.config.MESSAGE.interval));
+        if (this.config.MESSAGE.active === true) {
+            const Model = new Message_1.default();
+            const Storage = new MessageStorage_1.default();
+            this.logStatusOn();
+            setInterval(async () => {
+                try {
+                    const collection = await Storage.collect();
+                    await Promise.all(collection.map(async (messages) => {
+                        await Model.create(messages);
+                    }));
+                    this.logJob();
+                }
+                catch (error) {
+                    this.logFail(error);
+                }
+            }, this.timeHandle.toMS(this.config.MESSAGE.interval));
+        }
+        else {
+            this.logStatusOff();
+        }
     }
 }
 exports.default = MessageJob;
