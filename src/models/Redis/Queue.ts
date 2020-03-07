@@ -1,18 +1,30 @@
 import AbstractRedisModel from './AbstractRedisModel';
 import { Server } from 'socket.io';
+import { v4 as uuid } from 'uuid';
+
 
 interface IncrementQueue {
     id: string;
     email: string;
+    protocol?: string;
 }
 
 class Queue extends AbstractRedisModel {
+    protected socketServer: Server;
     constructor( server: Server ) {
-        super('CHAT:QUEUE', server);
+        super('CHAT:QUEUE');
+        this.socketServer = server;
+    }
+
+    private protocolify(customer: IncrementQueue): IncrementQueue {
+        return {
+            protocol: uuid(),
+            ...customer,
+        }
     }
 
     public async produce(customer: IncrementQueue): Promise<void> {
-        await this.Redis.connection.lpush(this.key, JSON.stringify(customer));
+        await this.Redis.connection.lpush(this.key, JSON.stringify(this.protocolify(customer)));
         this.Redis.events.emit(this.extendKey('change'));
     }
 
