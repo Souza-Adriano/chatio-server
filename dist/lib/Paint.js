@@ -6,7 +6,7 @@ class Printer {
         console.log(this.hex('#ff5555')(msg));
     }
     static blue(msg) {
-        console.log(this.hex('#8be9fd')(msg));
+        console.log(this.hex('#147AFF')(msg));
     }
     static green(msg) {
         console.log(this.hex('#50fa7b')(msg));

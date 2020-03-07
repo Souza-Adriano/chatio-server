@@ -19,10 +19,10 @@ class LogHandler {
         this.events.emit('message', msg);
     }
     static logger() {
-        this.events.on('fail', (msg) => this.printer.red(msg));
-        this.events.on('success', (msg) => this.printer.green(msg));
-        this.events.on('warning', (msg) => this.printer.yellow(msg));
-        this.events.on('info', (msg) => this.printer.blue(msg));
+        this.events.on('fail', (msg) => this.printer.red(`[FAIL] ${msg}`));
+        this.events.on('success', (msg) => this.printer.green(`[SUCCESS] ${msg}`));
+        this.events.on('warning', (msg) => this.printer.yellow(`[WARNING] ${msg}`));
+        this.events.on('info', (msg) => this.printer.blue(`[INFO] ${msg}`));
         this.events.on('message', (msg) => console.log(msg));
     }
 }

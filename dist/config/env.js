@@ -11,7 +11,7 @@ class ENV {
         this.env = process.env;
         this.values = Object.values(this.env);
         this.namespaces = this.getNamespaces()
-            .map((namespace) => (Object.assign({ namespace }, this.getProps(`${namespace}_`))));
+            .map((namespace) => ({ namespace, ...this.getProps(`${namespace}_`) }));
     }
     parseProp(value) {
         return isNaN(Number(value)) ? value : Number(value);

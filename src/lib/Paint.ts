@@ -8,7 +8,7 @@ export class Printer {
     }
 
     public static blue(msg: string): void {
-        console.log(this.hex('#8be9fd')(msg));
+        console.log(this.hex('#147AFF')(msg));
     }
 
     public static green(msg: string): void {

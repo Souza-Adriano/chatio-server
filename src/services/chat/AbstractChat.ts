@@ -1,6 +1,7 @@
 import AbstractSocket from '../../controllers/Abstract/AbstractSocket';
 import { Socket, Server} from 'socket.io';
 import { EventEmitter } from 'events';
+import MessageStorage from '../../models/Redis/MessageStorage';
 
 abstract class AbstractChat<SESSION> extends AbstractSocket<SESSION> {
     constructor(socket: Socket, server: Server, session: SESSION, handler: EventEmitter) {
@@ -8,14 +9,13 @@ abstract class AbstractChat<SESSION> extends AbstractSocket<SESSION> {
     }
 
     protected sendMessage(session: any): (data: any) => void {
+        const Storage = new MessageStorage();
         return (data: any): void => {
-            const message = {
-                from: session.email,
-                iat: this.iat(),
-                name: session.name,
-                content: data.content,
-            };
-            this.socket.to(data.destiny).emit('message', message);
+            const message = { from: session.email, iat: this.iat(), name: session.name, content: data.content };
+
+            Storage.store({protocol: data.protocol, from: session.email, content: data.content, to: data.to})
+                .then(() => this.socket.to(data.to).emit('message', message))
+                .catch(console.error);
         };
     }
 
@@ -27,7 +27,7 @@ abstract class AbstractChat<SESSION> extends AbstractSocket<SESSION> {
                 name: session.name,
                 content: data.content,
             };
-            this.socket.to(data.destiny).emit(`attachment:${type}`, message);
+            this.socket.to(data.to).emit(`attachment:${type}`, message);
         };
     }
 

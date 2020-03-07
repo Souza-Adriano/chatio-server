@@ -4,6 +4,8 @@ import { createServer, Server } from 'http';
 import * as IO from 'socket.io';
 import Env from './env';
 import { EventEmitter } from 'events';
+import { ServerOptions, SocketOptions } from './interfaces';
+import LogHandler from '../controllers/LogHandler';
 
 class App {
     public app: Application;
@@ -11,8 +13,9 @@ class App {
     private port: number;
     private Http: Server;
     private SocketServer: IO.Server;
+    private logHandler = LogHandler;
 
-    constructor(init: { middlewares: any; routes: any; sockets: {user: any[], customer: any[]}, watchers: any[]}) {
+    constructor(init: ServerOptions) {
         this.app = express();
         this.port = this.ENV.PORT;
         this.Http = createServer(this.app);
@@ -21,6 +24,8 @@ class App {
         this.middlewares(init.middlewares);
         this.routes(init.routes);
         this.watchers(init.watchers);
+        this.jobs(init.jobs);
+        this.logHandler.logger();
     }
 
     private middlewares(middleWares: { forEach: (arg0: (middleWare: any) => void) => void; }) {
@@ -31,7 +36,7 @@ class App {
         routes.forEach((route) => this.app.use('/', route.router));
     }
 
-    private sockets(sockets: {user: any[], customer: any[]}): void {
+    private sockets(sockets: SocketOptions): void {
         this.SocketServer.on('connection', (socket) => {
             const session = socket.handshake.query;
             socket.join(socket.handshake.query.email);
@@ -52,9 +57,18 @@ class App {
         });
     }
 
+    private jobs(jobs: any[]): void {
+        jobs.forEach((Job: any) => {
+            const job = new Job();
+            job.start();
+        });
+    }
+
     public start() {
         this.Http.listen(this.port, () => {
-            console.log(`App listening on port ${this.port}`);
+            console.log(`[INFO] App listening on port ${this.port}`);
+            console.log(`[INFO] http://localhost:${this.port}`);
+            console.log(`[INFO] Press CTRL + C to stop server`);
         });
     }
 }

@@ -15,9 +15,11 @@ const http_1 = require("http");
 const IO = __importStar(require("socket.io"));
 const env_1 = __importDefault(require("./env"));
 const events_1 = require("events");
+const LogHandler_1 = __importDefault(require("../controllers/LogHandler"));
 class App {
     constructor(init) {
         this.ENV = env_1.default.get('APP');
+        this.logHandler = LogHandler_1.default;
         this.app = express_1.default();
         this.port = this.ENV.PORT;
         this.Http = http_1.createServer(this.app);
@@ -26,6 +28,8 @@ class App {
         this.middlewares(init.middlewares);
         this.routes(init.routes);
         this.watchers(init.watchers);
+        this.jobs(init.jobs);
+        this.logHandler.logger();
     }
     middlewares(middleWares) {
         middleWares.forEach((middleWare) => this.app.use(middleWare));
@@ -49,9 +53,17 @@ class App {
             watcher.watch();
         });
     }
+    jobs(jobs) {
+        jobs.forEach((Job) => {
+            const job = new Job();
+            job.start();
+        });
+    }
     start() {
         this.Http.listen(this.port, () => {
-            console.log(`App listening on port ${this.port}`);
+            console.log(`[INFO] App listening on port ${this.port}`);
+            console.log(`[INFO] http://localhost:${this.port}`);
+            console.log(`[INFO] Press CTRL + C to stop server`);
         });
     }
 }

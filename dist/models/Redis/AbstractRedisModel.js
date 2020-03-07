@@ -5,10 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Redis_1 = __importDefault(require("../../lib/Redis"));
 class AbstractRedisModel {
-    constructor(key, server) {
+    constructor(key) {
         this.Redis = Redis_1.default;
         this.key = key;
-        this.socketServer = server;
     }
     extendKey(...extension) {
         return `${this.key}:${extension.join(':')}`;
