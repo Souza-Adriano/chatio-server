@@ -2,6 +2,7 @@ import AbstractRedisModel from './AbstractRedisModel';
 import { Server } from 'socket.io';
 import { v4 as uuid } from 'uuid';
 
+import LogHandler from '../../controllers/LogHandler';
 
 interface IncrementQueue {
     id: string;
@@ -11,6 +12,7 @@ interface IncrementQueue {
 
 class Queue extends AbstractRedisModel {
     protected socketServer: Server;
+    private logHandler = LogHandler;
     constructor( server: Server ) {
         super('CHAT:QUEUE');
         this.socketServer = server;
@@ -20,7 +22,7 @@ class Queue extends AbstractRedisModel {
         return {
             protocol: uuid(),
             ...customer,
-        }
+        };
     }
 
     public async produce(customer: IncrementQueue): Promise<void> {
@@ -35,6 +37,7 @@ class Queue extends AbstractRedisModel {
     }
 
     public watch(): void {
+        this.logHandler.info(`[REDIS] Queue watcher started`);
         this.Redis.events.on(this.extendKey('change'), async () => {
             try {
                 const length: number = await this.Redis.connection.llen(this.key);

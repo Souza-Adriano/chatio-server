@@ -21,11 +21,11 @@ abstract class AbstractJob {
     }
 
     public logStatusOff() {
-        this.logHandler.warning(`Job ${this.jobName} Stoped`);
+        this.logHandler.warning(`[JOB] ${this.jobName} Stoped`);
     }
 
     public logStatusOn() {
-        this.logHandler.info(`Job ${this.jobName} Running`);
+        this.logHandler.info(`[JOB] ${this.jobName} Running`);
     }
     public abstract async start(): Promise<void>;
 }

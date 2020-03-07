@@ -4,7 +4,7 @@ import MessageStorage from '../models/Redis/MessageStorage';
 
 class MessageJob extends AbstractJob {
     constructor() {
-        super('Message');
+        super('Message Store');
     }
 
     public async start() {

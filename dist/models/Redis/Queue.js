@@ -5,9 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const AbstractRedisModel_1 = __importDefault(require("./AbstractRedisModel"));
 const uuid_1 = require("uuid");
+const LogHandler_1 = __importDefault(require("../../controllers/LogHandler"));
 class Queue extends AbstractRedisModel_1.default {
     constructor(server) {
         super('CHAT:QUEUE');
+        this.logHandler = LogHandler_1.default;
         this.socketServer = server;
     }
     protocolify(customer) {
@@ -26,6 +28,7 @@ class Queue extends AbstractRedisModel_1.default {
         return JSON.parse(customer);
     }
     watch() {
+        this.logHandler.info(`[REDIS] Queue watcher started`);
         this.Redis.events.on(this.extendKey('change'), async () => {
             try {
                 const length = await this.Redis.connection.llen(this.key);

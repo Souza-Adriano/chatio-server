@@ -41,6 +41,7 @@ class App {
         routes.forEach((route) => this.app.use('/', route.router));
     }
     sockets(sockets) {
+        this.logHandler.info(`[SOCKET] Server is running`);
         this.SocketServer.on('connection', (socket) => {
             const session = socket.handshake.query;
             socket.join(socket.handshake.query.email);

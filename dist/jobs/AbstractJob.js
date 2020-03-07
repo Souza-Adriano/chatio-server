@@ -20,10 +20,10 @@ class AbstractJob {
         this.logHandler.fail(`Starting ${this.jobName} job \n  -> ${error}`);
     }
     logStatusOff() {
-        this.logHandler.warning(`Job ${this.jobName} Stoped`);
+        this.logHandler.warning(`[JOB] ${this.jobName} Stoped`);
     }
     logStatusOn() {
-        this.logHandler.info(`Job ${this.jobName} Running`);
+        this.logHandler.info(`[JOB] ${this.jobName} Running`);
     }
 }
 exports.default = AbstractJob;

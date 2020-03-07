@@ -8,7 +8,7 @@ const Message_1 = __importDefault(require("../models/Message"));
 const MessageStorage_1 = __importDefault(require("../models/Redis/MessageStorage"));
 class MessageJob extends AbstractJob_1.default {
     constructor() {
-        super('Message');
+        super('Message Store');
     }
     async start() {
         if (this.config.MESSAGE.active === true) {
